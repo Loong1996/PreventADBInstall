@@ -12,34 +12,28 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import static android.os.Binder.getCallingUid;
 
+public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
-public class HookMain implements IXposedHookZygoteInit,
-        IXposedHookLoadPackage {
-
-    private static final String TAG = "PreventADBInstall";
     public XC_MethodHook installPackageHook;
     public Context mContext;
 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
 
-
         installPackageHook = new XC_MethodHook() {
             @Override
             public void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 mContext = AndroidAppHelper.currentApplication();
-                mContext = (Context) XposedHelpers.getObjectField(
-                        param.thisObject, "mContext");
+                mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 boolean isInstallStage = "installStage".equals(param.method
                         .getName());
-                int flags = 0;
+                int flags= 0 ;
                 int id = 0;
 
                 if (isInstallStage) {
                     try {
                         id = 4;
-                        flags = (Integer) XposedHelpers.getObjectField(
-                                param.args[id], "installFlags");
+                        flags = (Integer) XposedHelpers.getObjectField(param.args[id], "installFlags");
                         XposedBridge.log("Hook InstallStage Success");
                     } catch (Exception e) {
                         XposedBridge.log(e);
@@ -78,7 +72,6 @@ public class HookMain implements IXposedHookZygoteInit,
                 }
             }
         };
-
     }
 
     public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
