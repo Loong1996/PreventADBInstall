@@ -27,7 +27,7 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 boolean isInstallStage = "installStage".equals(param.method
                         .getName());
-                int flags= 0 ;
+                int flags = 0 ;
                 int id = 0;
 
                 if (isInstallStage) {
