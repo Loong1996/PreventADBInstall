@@ -12,6 +12,6 @@
             android:value="拦截 ADB 安装（某些内核默认以 Root 权限运行 ADB，暂时可能无法使用）"/>
         <meta-data
             android:name="xposedminversion"
-            android:value="78"/>
+            android:value="76"/>
     </application>
 </manifest>
