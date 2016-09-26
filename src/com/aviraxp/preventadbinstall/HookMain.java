@@ -32,7 +32,6 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         XposedBridge.log("PreventADBInstall: Hook Flags Success!");
                     } catch (Exception e) {
                         XposedBridge.log(e);
-                        }
                     }
                 } else {
                     try {
@@ -41,7 +40,6 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         XposedBridge.log("PreventADBInstall: Hook Flags Success!");
                     } catch (Exception e) {
                         XposedBridge.log(e);
-                        }
                     }
                 }
 
