@@ -32,9 +32,6 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         XposedBridge.log("PreventADBInstall: Hook Flags Success!");
                     } catch (Exception e) {
                         XposedBridge.log(e);
-                        XposedBridge.log("PreventADBInstall: Stacktrace follows:");
-                        for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
-                            XposedBridge.log("PreventADBInstall: HookDetection: " + stackTraceElement.getClassName() + "->" + stackTraceElement.getMethodName());
                         }
                     }
                 } else {
@@ -44,9 +41,6 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         XposedBridge.log("PreventADBInstall: Hook Flags Success!");
                     } catch (Exception e) {
                         XposedBridge.log(e);
-                        XposedBridge.log("PreventADBInstall: Stacktrace follows:");
-                        for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
-                            XposedBridge.log("PreventADBInstall: HookDetection: " + stackTraceElement.getClassName() + "->" + stackTraceElement.getMethodName());
                         }
                     }
                 }
