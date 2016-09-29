@@ -3,6 +3,7 @@ package com.aviraxp.preventadbinstall;
 import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.os.Build;
+import android.os.Looper;
 import android.widget.Toast;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -57,10 +58,12 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     param.args[id] = flags;
                 }
 
-                if (getCallingUid() == 2000) {
+                if (getCallingUid() == 0) {
                     param.setResult(null);
                     XposedBridge.log("PreventADBInstall: Block Success!");
-                    Toast.makeText(mContext, "PreventADBInstall: Block Success!", Toast.LENGTH_LONG).show();
+                    Looper.prepare();
+                    Toast.makeText(mContext, "拦截 ADB 安装成功！", Toast.LENGTH_LONG).show();
+                    Looper.loop();
                     return;
                 }
             }
