@@ -1,6 +1,9 @@
 package com.aviraxp.preventadbinstall;
 
+import android.app.AndroidAppHelper;
+import android.content.Context;
 import android.os.Build;
+import android.widget.Toast;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -14,6 +17,7 @@ import static android.os.Binder.getCallingUid;
 public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
     public XC_MethodHook installPackageHook;
+    public Context mContext;
 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
@@ -21,6 +25,8 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         installPackageHook = new XC_MethodHook() {
             @Override
             public void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                mContext = AndroidAppHelper.currentApplication();
+                mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 boolean isInstallStage = "installStage".equals(param.method.getName());
                 int flags = 0;
                 int id = 0;
@@ -54,6 +60,7 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 if (getCallingUid() == 2000) {
                     param.setResult(null);
                     XposedBridge.log("PreventADBInstall: Block Success!");
+                    Toast.makeText(mContext, "PreventADBInstall: Block Success!", Toast.LENGTH_LONG).show();
                     return;
                 }
             }
