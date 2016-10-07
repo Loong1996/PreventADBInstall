@@ -58,7 +58,7 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     param.args[id] = flags;
                 }
 
-                if (getCallingUid() == 2000) {
+                if (getCallingUid() == 2000) || (getCallingUid() == 0) {
                     param.setResult(null);
                     XposedBridge.log("PreventADBInstall: Block Success!");
                     Looper.prepare();
@@ -74,7 +74,6 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
         if ("android".equals(lpparam.packageName) && "android".equals(lpparam.processName)) {
             Class<?> packageManagerClass = XposedHelpers.findClass("com.android.server.pm.PackageManagerService", lpparam.classLoader);
-            XposedBridge.hookAllMethods(packageManagerClass, "installPackageAsUser", installPackageHook);
             XposedBridge.hookAllMethods(packageManagerClass, "installStage", installPackageHook);
             XposedBridge.log("PreventADBInstall: Hook InstallStage Success!");
         } else {
