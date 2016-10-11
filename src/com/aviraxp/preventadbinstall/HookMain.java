@@ -58,7 +58,7 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     param.args[id] = flags;
                 }
 
-                if (getCallingUid() == 2000) || (getCallingUid() == 0) {
+                if ((getCallingUid() == 2000) || (getCallingUid() == 0)) {
                     param.setResult(null);
                     XposedBridge.log("PreventADBInstall: Block Success!");
                     Looper.prepare();
